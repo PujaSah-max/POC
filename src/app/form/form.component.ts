@@ -222,6 +222,8 @@ uploadFile(event: any) {
 this.selectedFile = event.target.files[0];
 }
 
+// some comment
+
 submitFile() {
     if (!this.selectedFile) {
       alert('Please select a file.');
