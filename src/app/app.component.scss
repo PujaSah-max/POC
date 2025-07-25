@@ -1,0 +1,54 @@
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+}
+.top-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  background: linear-gradient(to right, #6366f1, #3b82f6); /* Indigo to blue */
+  padding: 12px 24px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.top-nav a {
+  color: white;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 6px 14px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.top-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.nav-btn:hover {
+  background: linear-gradient(to right, #e97420, #bed730); /* Darker blue on hover */
+  transform: translateY(-2px);
+}
+.hide {
+  display: none !important;
+}
+.welcome-bar{
+    text-align: left;
+     font-size: 12px;
+  font-weight: 400;
+  color: #1e299c;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+}

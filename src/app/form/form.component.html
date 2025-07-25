@@ -1,0 +1,246 @@
+<h1 class="form-title">User Form</h1>
+<input type="file" (change)="uploadFile($event)" accept=".xlsx, .xls" />
+<button (click)="submitFile()">Upload</button>
+
+
+<form class="form-container" [formGroup]="myform" (ngSubmit)="Onsubmit()" id="myform">
+  <div class="form-group">
+    <label for="EmpId">Emp ID<span class="required">*</span></label>
+    <input type="Text" id="EmpId" formControlName="empId" placeholder="Enter EmpId" />
+    <small class="error" *ngIf="myform.get('empId')?.errors?.['required'] ">
+      Emp ID is required
+    </small>
+  </div>
+
+  <div class="form-group">
+    <label for="Name">Name <span class="required">*</span></label>
+    <input type="text" id="Name" formControlName="name" placeholder="Enter Name" />
+    <small class="error" *ngIf="myform.get('name')?.errors?.['minlength'] && (myform.get('name')?.touched || submitted)">
+      Name must be at least 3 characters long
+    </small>
+  </div>
+
+  <!-- <div class="form-group">
+    <label for="Designation">Designation<span class="required">*</span></label> -->
+    <!-- <input type="text" id="Designation" formControlName="designation" placeholder="Enter Designation" /> -->
+    <!-- <select id="Designation" formControlName="designation">
+      <option value="">Select Designation</option>
+      <option value="Software Engineer">Software Engineer</option>
+      <option value="Senior Software Engineer">Senior Software Engineer</option>
+      <option value="Team Lead">Team Lead</option>
+      <option value="Project Manager">Project Manager</option>
+      <option value="QA Engineer">QA Engineer</option>
+      <option value="Business Analyst">Business Analyst</option>
+      <option value="UI/UX Designer">UI/UX Designer</option>
+    </select>
+    <small class="error" *ngIf="myform.get('designation')?.errors && (myform.get('designation')?.touched || submitted)">
+      Designation must be at least 3 characters long
+    </small>
+  </div> -->
+
+  <!-- <div class="form-group">
+  <label for="Designation">Designation<span class="required">*</span></label>
+  <select id="Designation" formControlName="designation">
+    <option value="">Select Designation</option>
+    <option *ngFor="let des of designations" [value]="des">{{ des }}</option>
+  </select>
+  <small class="error" *ngIf="myform.get('designation')?.errors && (myform.get('designation')?.touched || submitted)">
+    Designation must be at least 3 characters long
+  </small>
+</div> -->
+
+<!-- <kendo-combobox
+  [data]="designations"
+  [filterable]="true"
+  [allowCustom]="true"
+  [valuePrimitive]="true"
+  label="Designation"
+  formControlName="designation"
+  [placeholder]="'Select or enter Designation'"
+  (valueChange)="onDesignationChange($event)"
+>
+</kendo-combobox> -->
+<div class="form-group">
+  <label for="designation">Designation<span class="required">*</span></label>
+
+  <kendo-combobox class="small-combobox"
+    [data]="designations"
+    [filterable]="true"
+    [allowCustom]="true"
+    [valuePrimitive]="true"
+    formControlName="designation"
+    [placeholder]="'Select or enter Designation'"
+    [id]="'designation'"
+    (valueChange)="onDesignationChange($event)"
+  >
+  </kendo-combobox>
+
+  <small class="error" *ngIf="myform.get('designation')?.errors && (myform.get('designation')?.touched || submitted)">
+    Designation must be at least 3 characters long
+  </small>
+</div>
+
+
+<small class="error" *ngIf="myform.get('designation')?.errors && (myform.get('designation')?.touched || submitted)">
+  Designation must be at least 3 characters long
+</small>
+
+
+
+  <div class="form-group">
+    <label for="Reporting_To">Reporting To<span class="required">*</span></label>
+    <input type="text" id="Reporting_To" formControlName="reporting_To" placeholder="Enter Reporting Manager" />
+    <small class="error" *ngIf="myform.get('reporting_To')?.errors && (myform.get('reporting_To')?.touched || submitted)">
+   Reporting_To must be at least 3 characters long
+</small>
+  </div>
+
+    <div class="form-group">
+      <label for="Billable">Billable Status<span class="required">*</span></label>
+      <select id="Billable" formControlName="billable">
+        <option value="" disabled selected>Select Billable Status</option>
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+      </select>
+    </div>
+
+  <!-- <div class="form-group">
+    <label for="Skills">Skills<span class="required">*</span></label> -->
+    <!-- <input type="text" id="Skills" formControlName="skills" placeholder="Enter your Skills" /> -->
+    <!-- <select id="Skills" formControlName="skills">
+  <option value="">Select Skill</option>
+  <option value="Angular">Angular</option>
+  <option value="React">React</option>
+  <option value="ASP.NET">ASP.NET</option>
+  <option value="Node.js">Node.js</option>
+  <option value="SQL Server">SQL Server</option>
+  <option value="Python">Python</option>
+  <option value="Java">Java</option>
+  <option value="C#">C#</option>
+</select>
+
+    <small class="error" *ngIf="myform.get('skills')?.errors?.['required'] && (myform.get('skills')?.touched || submitted)">
+   Skills are required
+</small>
+  </div> -->
+
+  <div class="form-group">
+  <label for="skills">Skills<span class="required">*</span></label>
+
+  <kendo-combobox class="small-combobox"
+    [data]="skillsList"
+    [filterable]="true"
+    [allowCustom]="true"
+    [valuePrimitive]="true"
+    [id]="'skills'"
+    formControlName="skills"
+    [placeholder]="'Select or enter Skill'"
+    (valueChange)="onSkillChange($event)"
+    
+  >
+  </kendo-combobox>
+
+  <small class="error" *ngIf="myform.get('skills')?.errors?.['required'] && (myform.get('skills')?.touched || submitted)">
+    Skills are required
+  </small>
+</div>
+
+
+  <!-- <div class="form-group">
+    <label for="Project_Allocation">Project Allocation<span class="required">*</span></label> -->
+    <!-- <input type="text" id="Project_Allocation" formControlName="project_Allocation" placeholder="Enter Project Name" /> -->
+   <!-- <select id="Project_Allocation" formControlName="project_Allocation">
+  <option value="">Select Project</option>
+  <option value="Schneider">Schneider</option>
+  <option value="Hills">Hills</option>
+</select>
+<small class="error" *ngIf="myform.get('project_Allocation')?.errors?.['required'] && (myform.get('project_Allocation')?.touched || submitted)">
+project_Allocation are required
+</small>
+  </div> -->
+
+  <div class="form-group">
+  <label for="project_Allocation">Project Allocation<span class="required">*</span></label>
+
+  <kendo-combobox class="small-combobox"
+    [data]="projectList"
+    [filterable]="true"
+    [allowCustom]="true"
+    [valuePrimitive]="true"
+    formControlName="project_Allocation"
+    [placeholder]="'Select or enter Project'"
+    [id]="'project_Allocation'"
+    (valueChange)="onProjectChange($event)"
+    style="width: 500px;"
+  >
+  </kendo-combobox>
+
+  <small class="error" *ngIf="myform.get('project_Allocation')?.errors?.['required'] && (myform.get('project_Allocation')?.touched || submitted)">
+    Project Allocation is required
+  </small>
+</div>
+
+
+  <div class="form-group">
+  <label for="Location">Location<span class="required">*</span></label>
+  <select id="Location" formControlName="location" class="form-control" (change)="onLocationChange()">
+  <option value="" disabled selected>Select Location</option>
+  <option *ngFor="let location of locations" [value]="location">
+    {{ location }}
+  </option>
+  </select>
+  <small class="error" *ngIf="myform.get('location')?.errors?.['required'] && (myform.get('location')?.touched || submitted)">
+   Location are required
+</small>
+</div>
+
+<!-- Show when 'Other' is selected -->
+<div class="form-group" *ngIf="showOtherInput">
+    <label for="otherLocation">Enter Other Location</label>
+    <input
+      type="text"
+      id="OtherLocation"
+      formControlName="otherLocation"
+      placeholder="Enter custom location"
+      class="form-control"
+    />
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="Email">Email<span class="required">*</span></label>
+    <input type="email" id="Email" formControlName="email" placeholder="email@example.com" />
+    <small class="error" *ngIf="myform.get('email')?.errors?.['required'] && (myform.get('email')?.touched || submitted)">
+   Email are required
+</small>
+    
+  </div>
+
+  <div class="form-group">
+    <label for="CTE_DOJ">CTE DOJ<span class="required">*</span></label>
+    <input type="date" id="CTE_DOJ" 
+       placeholder="yyyy-MM-dd" 
+   formControlName="ctE_DOJ" />
+        <small class="error" *ngIf="myform.get('ctE_DOJ')?.errors?.['required'] && (myform.get('ctE_DOJ')?.touched || submitted)">
+   DOJ are required
+</small>
+  </div>
+
+  <div class="form-group">
+     <label for="Remarks">Remarks<span class="required">*</span></label>
+    <input type="text" id="remarks" formControlName="remarks" placeholder="Enter Remarks" /> 
+     
+     <small class="error" *ngIf="myform.get('remarks')?.errors?.['required'] && (myform.get('remarks')?.touched || submitted)">
+   Remarks are required
+</small>
+  </div>
+
+  <div class="button-row-center">
+  <button type="submit" [disabled]="!myform.valid" class="submit-btn">
+   {{isEditMode ? 'Update' : 'Submit' }}
+   </button>
+   <button type="button" class="reset-btn"(click)="resetForm()">Reset</button>
+   </div>
+
+</form>

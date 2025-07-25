@@ -1,0 +1,119 @@
+<div class="page-header">
+  <div class="grid-wrapper">
+    <h1 class="title">Resource Management Dashboard</h1>
+    <h2 class="subtitle">Track employee allocations, skills, and billable details across projects</h2>
+
+    <!-- ✅ Bulk Action Buttons -->
+    <div class="button-container" style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px;">
+      <button 
+        (click)="bulkDelete()" 
+        class="delete-btn"
+        [disabled]="selectedKeys.length === 0"
+      >
+        🗑️ Delete Selected
+      </button>
+
+      <button 
+        (click)="toggleBulkEdit()" 
+        class="edit-btn"
+        [disabled]="selectedKeys.length === 0"
+      >
+        ✏️ Bulk Edit
+      </button>
+    </div>
+
+    <!-- ✅ Bulk Edit Form -->
+    <div *ngIf="isBulkEditMode" class="bulk-edit-container">
+      <h3>Bulk Edit Selected Employees</h3>
+      <form [formGroup]="editedFormGroup" class="bulk-edit-form">
+  <label>
+    Designation:
+    <input formControlName="designation" />
+  </label>
+  <label>
+    Skills:
+    <input formControlName="skills" />
+  </label>
+  
+  <label>
+    Location:
+    <input formControlName="location" />
+  </label>
+  <label>
+    Remarks:
+    <input formControlName="remarks" />
+  </label>
+
+  <div class="bulk-edit-buttons">
+    <button type="button" (click)="applyBulkChanges()" class="btn save-btn"style="background-color: #28a745; color: white;">Apply</button>
+    <button type="button" (click)="isBulkEditMode = false" class="btn cancel-btn"style="background-color: #28a745; color: white;">Cancel</button>
+  </div>
+</form>
+
+    </div>
+
+    <!-- ✅ Kendo Grid -->
+    <kendo-grid 
+      [kendoGridBinding]="details"
+      [pageSize]="6"
+      [pageable]="true"
+      [sortable]="{ mode: 'multiple' }"
+      [navigable]="true"
+      [style.width.%]="100"
+      [height]="500"
+      [reorderable]="true"
+      [resizable]="true"
+      [groupable]="true"
+      [selectable]="{ checkboxOnly: true, mode: 'multiple' }"
+      [(selectedKeys)]="selectedKeys"
+      [kendoGridSelectBy]="'empId'"
+      (excelExport)="allData()"
+    >
+      <kendo-grid-checkbox-column [width]="50"[showSelectAll]="true"></kendo-grid-checkbox-column>
+
+      <kendo-toolbar class="scrollable-toolbar" overflow="scroll">
+        <kendo-toolbar-button kendoGridFilterTool></kendo-toolbar-button>
+        <kendo-toolbar-button kendoGridSortTool></kendo-toolbar-button>
+        <kendo-toolbar-button kendoGridGroupTool></kendo-toolbar-button>
+        <kendo-toolbar-separator></kendo-toolbar-separator>
+        <kendo-toolbar-button kendoGridColumnChooserTool></kendo-toolbar-button>
+        <kendo-toolbar-spacer></kendo-toolbar-spacer>
+        <kendo-toolbar-button kendoGridPDFTool></kendo-toolbar-button>
+        <kendo-toolbar-button kendoGridExcelTool></kendo-toolbar-button>
+      </kendo-toolbar>
+      
+
+
+      <kendo-grid-column field="empId"[groupable]="false" title="Emp ID" [headerStyle]="{ 'font-size': '1.0rem','font-weight': 'bold' }"></kendo-grid-column>
+      <kendo-grid-column field="name" title="Name" [headerStyle]="{ 'font-size': '1.0rem','font-weight': 'bold' }"></kendo-grid-column>
+      <kendo-grid-column field="designation" title="Designation" [headerStyle]="{ 'font-size': '1.0rem','font-weight': 'bold' }"></kendo-grid-column>
+      <kendo-grid-column field="skills" title="Skills" [headerStyle]="{ 'font-size': '1.0rem','font-weight': 'bold' }"></kendo-grid-column>
+
+      <kendo-grid-column title="Actions"[columnMenu]="false" [groupable]="false" [filterable]="false" [headerStyle]="{ 'font-size': '1.0rem','font-weight': 'bold' }">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <button class="btn show-btn" (click)="Showhim(dataItem)">Show Details</button>
+          <button class="btn edit-btn" (click)="editEmployee(dataItem.empId)">Edit</button>
+          <button class="btn delete-btn" (click)="deletedetails(dataItem.empId)">Delete</button>
+          <a [href]="'mailto:' + dataItem.email">
+            <button class="btn mail-btn" type="button">Email</button>
+          </a>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-pdf
+        fileName="Products.pdf"
+        [delay]="1000"
+        [allPages]="true"
+        paperSize="A4"
+        [repeatHeaders]="true"
+        [landscape]="true"
+      ></kendo-grid-pdf>
+
+      <kendo-grid-excel
+        fileName="details.xlsx"
+        [fetchData]="allData"
+      ></kendo-grid-excel>
+
+    </kendo-grid>
+  </div>
+</div>

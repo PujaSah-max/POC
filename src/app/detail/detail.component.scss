@@ -1,0 +1,57 @@
+.employee-details-card {
+  max-width: 750px;
+  margin: 40px auto;
+  padding: 30px;
+  background: linear-gradient(to right, #f9f9f9, #f0f8ff);
+  border: 2px solid #dce4f2;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  transition: transform 0.3s ease;
+}
+
+.employee-details-card:hover {
+  transform: scale(1.01);
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #294a63;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #a1c4fd;
+  padding-bottom: 10px;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.details-table td {
+  padding: 14px 12px;
+  vertical-align: top;
+  border-bottom: 1px solid #eee;
+}
+
+.details-table td:first-child {
+  font-weight: 600;
+  color: #1d3557;
+  width: 200px;
+  background-color: #f1f7ff;
+}
+
+.details-table td:last-child {
+  color: #333;
+  background-color: #ffffff;
+}
+
+/* Optional: hover effect for rows */
+.details-table tr:hover td {
+  background-color: #e9f2ff;
+}

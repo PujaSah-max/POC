@@ -1,0 +1,18 @@
+<div class="employee-details-card">
+  <h1 class="title">Employee Details</h1>
+  <table class="details-table">
+    <tr><td>EmpId:</td><td>{{ detail?.empId }}</td></tr>
+    <tr><td>Employee Name:</td><td>{{ detail?.name }}</td></tr>
+    <tr><td>Designation:</td><td>{{ detail?.designation }}</td></tr>
+    <tr><td>Reporting To:</td><td>{{ detail?.reporting_To }}</td></tr>
+    <tr><td>Email:</td><td>{{ detail?.email }}</td></tr>
+    <tr><td>Billable:</td><td>{{ detail?.billable ? "YES" : "NO" }}</td></tr>
+    <tr><td>Skills:</td><td>{{ detail?.skills }}</td></tr>
+    <tr><td>Project Allocation:</td><td>{{ detail?.project_Allocation }}</td></tr>
+    <tr><td>Location:</td><td>{{ detail?.location }}</td></tr>
+    
+    
+    <tr><td>CTE DOJ:</td><td>{{ detail?.ctE_DOJ }}</td></tr>
+    <tr><td>Remarks:</td><td>{{ detail?.remarks }}</td></tr>
+  </table>
+</div>

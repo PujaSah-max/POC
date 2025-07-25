@@ -1,0 +1,144 @@
+/* home.component.css */
+
+.hero {
+  display: flex;
+  align-items: center;
+  padding: 40px;
+  background-color: #f5f7fa;
+  gap: 30px;
+}
+
+.hero-img {
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.hero-text h1 {
+  font-size: 2.8rem;
+  color: #003366;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.hero-text p {
+  font-size: 1.25rem;
+  color: #555;
+}
+
+.features-list {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+.features-list h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+.features-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.features-list li {
+  background: #f9f9f9;
+  border-left: 6px solid #4CAF50;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.05);
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.features-list li:hover {
+  background-color: #e8f5e9;
+  cursor: default;
+}
+
+.features-list li::before {
+  content: "✓";  /* checkmark icon */
+  color: #4CAF50;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 12px;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+.intro-section {
+  background-color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.intro-text {
+  font-size: 18px;
+  color: #333333;
+  line-height: 1.8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  .dashboard-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin: 20px;
+}
+
+.dashboard-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.dashboard-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-wrap: nowrap; /* ✅ force same row */
+  overflow-x: auto;  
+}
+
+.dashboard-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  min-width: 200px;
+  flex: 1;
+  max-width: 25%;
+  transition: background 0.3s;
+}
+
+.dashboard-item i {
+  font-size: 24px;
+  color: #4a90e2;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 14px;
+  color: #666;
+}
+
+.value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
+
+
+}
