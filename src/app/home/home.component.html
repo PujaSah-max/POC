@@ -26,22 +26,57 @@
     <div *ngIf="isBulkEditMode" class="bulk-edit-container">
       <h3>Bulk Edit Selected Employees</h3>
       <form [formGroup]="editedFormGroup" class="bulk-edit-form">
-  <label>
+  <!-- <label>
     Designation:
     <input formControlName="designation" />
-  </label>
+  </label> -->
   <label>
-    Skills:
-    <input formControlName="skills" />
-  </label>
-  
+  Designation:
+  <kendo-combobox class="small-combobox"
+    [data]="designationList"
+    [filterable]="true"
+    [allowCustom]="true"
+    [valuePrimitive]="true"
+    formControlName="designation"
+    [placeholder]="'Select or enter Designation'"
+    [id]="'designation'"
+    (valueChange)="onDesignationChange($event)"
+    style="width: 150px"
+  >
+  </kendo-combobox>
+</label>
+ <label>
+  Skills:
+  <kendo-combobox class="small-combobox"
+    [data]="skillsList"
+    [filterable]="true"
+    [allowCustom]="true"
+    [valuePrimitive]="true"
+    formControlName="skills"
+    [placeholder]="'Select or enter Skills'"
+    (valueChange)="onSkillsChange($event)"
+    style="width: 150px">
+  </kendo-combobox>
+</label>
+
   <label>
-    Location:
-    <input formControlName="location" />
-  </label>
+  Location:
+  <kendo-combobox class="small-combobox"
+    [data]="locationList"
+    [filterable]="true"
+    [allowCustom]="true"
+    [valuePrimitive]="true"
+    formControlName="location"
+    [placeholder]="'Select or enter Location'"
+    (valueChange)="onLocationChange($event)"
+    style="width: 150px">
+  </kendo-combobox>
+</label>
+
   <label>
     Remarks:
-    <input formControlName="remarks" />
+    <input formControlName="remarks"class="small-combobox" 
+    style="width: 150px"/>
   </label>
 
   <div class="bulk-edit-buttons">

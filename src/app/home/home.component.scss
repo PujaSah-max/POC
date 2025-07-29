@@ -255,27 +255,7 @@ kendo-grid ::ng-deep .k-grid tbody tr:hover {
   margin: 10px 0;
 }
 
-// .delete-btn {
-//   background-color:blueviolet;
-//   justify-content: flex-end;
-//   color: white;
-//   border: none;
-//   padding: 8px 16px;
-//   font-size: 14px;
-//   border-radius: 6px;
-//   cursor: pointer;
-//   transition: background-color 0.3s ease;
 
-//   &:hover {
-//     background-color:skyblue;
-//   }
-
-//   &:disabled {
-//     background-color: #e0e0e0;
-//     color: #9e9e9e;
-//     cursor: not-allowed;
-//   }
-// }
 .bulk-edit-container {
   max-width: 800px;
   margin: 20px auto;
@@ -314,6 +294,46 @@ kendo-grid ::ng-deep .k-grid tbody tr:hover {
 .bulk-edit-container button:hover {
   background-color: #1565c0;
 }
+.small-combobox, .form-input {
+  margin-top: 5px;
+  width: 100%;
+  min-width: 200px;
+}
+.form-input {
+  margin-top: 4px;
+  min-width: 220px;
+  max-width: 240px;
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+  background: linear-gradient(to right, #fbc02d, #7e57c2);
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  max-width: 240px;
+  flex: 1;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+
+
 
 
 }

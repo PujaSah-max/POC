@@ -8,6 +8,7 @@ import { ExcelModule, GridModule } from '@progress/kendo-angular-grid';
 import { ToolBarModule } from '@progress/kendo-angular-toolbar';
 import { FormsModule } from "@angular/forms";
 import { ExcelExportData } from "@progress/kendo-angular-excel-export";
+import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
 import {
   KENDO_GRID,
@@ -38,6 +39,7 @@ import { KENDO_INPUTS } from "@progress/kendo-angular-inputs";
     KENDO_TOOLBAR,
     KENDO_INPUTS,
     KENDO_LABELS,
+    ComboBoxModule,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -51,6 +53,13 @@ export class HomeComponent implements OnInit {
   public isBulkEditMode: boolean = false;
   public editedFormGroup!: FormGroup;
   public selectedItems: any[] = [];
+  designationList: any[] = [];
+  skillsList: any[] = [];
+  projectList: any[] = [];
+  locationList:any[]=[];
+  
+  
+
 
   constructor(
     private service: ServiceService,
@@ -66,6 +75,10 @@ export class HomeComponent implements OnInit {
   fetchEmployees() {
     this.service.GetAllEmployees().subscribe(data => {
       this.details = data;
+      this.designationList = [...new Set(data.map((item: { designation: any; }) => item.designation))];
+      this.skillsList = [...new Set(data.map((item: { skills: any; }) => item.skills))];
+      this.projectList = [...new Set(data.map((item: { project_Allocation: any; }) => item.project_Allocation))];
+      this.locationList=[...new Set(data.map((item: {location: any; }) => item.location))]; 
     });
   }
 
@@ -124,6 +137,15 @@ export class HomeComponent implements OnInit {
       remarks: ['']
     });
   }
+  onDesignationChange(value: string): void {
+    this.editedFormGroup.get('designation')?.setValue(value);
+  }
+  onSkillsChange(value: string): void {
+  this.editedFormGroup.get('skills')?.setValue(value);
+}
+onLocationChange(value: string): void {
+  this.editedFormGroup.get('location')?.setValue(value);
+}
 
   toggleBulkEdit() {
     this.isBulkEditMode = !this.isBulkEditMode;
