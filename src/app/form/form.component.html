@@ -127,7 +127,7 @@
   <div class="form-group">
   <label for="skills">Skills<span class="required">*</span></label>
 
-  <kendo-combobox class="small-combobox"
+  <!-- <kendo-combobox class="small-combobox"
     [data]="skillsList"
     [filterable]="true"
     [allowCustom]="true"
@@ -135,10 +135,21 @@
     [id]="'skills'"
     formControlName="skills"
     [placeholder]="'Select or enter Skill'"
-    (valueChange)="onSkillChange($event)"
-    
+    (valueChange)="onSkillChange($event)" 
   >
-  </kendo-combobox>
+  </kendo-combobox> -->
+  
+  <ng-select
+    formControlName="skills"
+    [items]="techSkills"
+    bindLabel="name"
+    bindValue="id"
+    [multiple]="true"
+    [searchable]="true"
+    [closeOnSelect]="false"
+    [clearable]="true"
+  ></ng-select>
+
 
   <small class="error" *ngIf="myform.get('skills')?.errors?.['required'] && (myform.get('skills')?.touched || submitted)">
     Skills are required
