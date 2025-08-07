@@ -242,7 +242,7 @@ export class FormComponent {
 
     this.service.uploadExcelFile(this.selectedFile).subscribe({
       next: () => alert('Upload successful!'),
-      error: () => alert('Upload failed.')
+      error: () => alert('Upload failed [Duplicate Data Insertion].')
     });
 
 

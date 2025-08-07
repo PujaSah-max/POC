@@ -1,0 +1,83 @@
+/* Main form container */
+.form-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 25px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Label styling */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Input styling */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+/* Focused input effect */
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Submit button */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Button hover */
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px; /* Make space for the icon */
+}
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #888;
+}
+.form-group {
+  position: relative;
+}
+input[type="password"],
+input[type="text"] {
+  padding-right: 30px; // Space for the icon
+}

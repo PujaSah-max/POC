@@ -14,6 +14,13 @@ export const ApiDictionary = {
   DeleteEmployee: {
     url: 'DeleteEmployee'
   },
-   UploadExcel: {
-    url: 'UploadExcel'}
+  UploadExcel: {
+    url: 'UploadExcel'
+  },
+  Signup: {
+    url: 'sign-up'
+  },
+ Login:{
+  url:'login'
+ }
 };

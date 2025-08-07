@@ -1,0 +1,56 @@
+<!-- <form class="form-container" [formGroup]="authform" (ngSubmit)="onSubmit()" id="myform">
+  <div class="form-group">
+    <label for="userName">UserName</label>
+    <input type="text" id="userName" formControlName="userName" placeholder="Enter Username" /> 
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" formControlName="email" placeholder="Enter email" /> 
+  </div>
+
+ <div class="form-group">
+  <label for="password">Password</label>
+  <div class="password-wrapper">
+    <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password" placeholder="Enter password" />
+    <span class="toggle-password" (click)="togglePasswordVisibility()">
+      {{ showPassword ? '🙈' : '👁️' }}
+    </span>
+  </div>
+</div>
+
+<button type="submit">Signup</button> -->
+
+<form class="form-container" [formGroup]="authform" (ngSubmit)="onSubmit()" id="myform">
+  <h2>{{ isLoginMode ? 'Login' : 'Signup' }}</h2>
+
+  <!-- Username field only for Signup -->
+  <div class="form-group" *ngIf="!isLoginMode">
+    <label for="userName">UserName</label>
+    <input type="text" id="userName" formControlName="userName" placeholder="Enter Username" />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email or Username</label>
+    <input type="email" id="email" formControlName="email" placeholder="Enter Email or Username" />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <div class="password-wrapper">
+      <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password" placeholder="Enter password" />
+      <span class="toggle-password" (click)="togglePasswordVisibility()">
+        {{ showPassword ? '🙈' : '👁️' }}
+      </span>
+    </div>
+  </div>
+
+  <button type="submit">{{ isLoginMode ? 'Login' : 'Signup' }}</button>
+
+  <p class="toggle-mode-text">
+    {{ isLoginMode ? "Don't have an account?" : "Already have an account?" }}
+    <button type="button" (click)="toggleMode()">
+      {{ isLoginMode ? 'Signup' : 'Login' }}
+    </button>
+  </p>
+</form>

@@ -14,17 +14,16 @@ import { ToolBarModule } from '@progress/kendo-angular-toolbar';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FormComponent,DetailComponent,HomeComponent, ParentComponent,RouterOutlet,RouterLink,CommonModule,NgIf,ToolBarModule ],
+  imports: [RouterOutlet, CommonModule, NgIf, ToolBarModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'POC';
-  showallemp=false;
-  Togglefunc(){
+  showallemp = false;
+  Togglefunc() {
+    this.showallemp = true;
+  }
 
-    this.showallemp=true;
-  }
-  
-  }
+}
 
