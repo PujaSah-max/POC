@@ -230,6 +230,7 @@ export class FormComponent {
   }
 
   selectedFile: File | null = null;
+
   uploadFile(event: any) {
     this.selectedFile = event.target.files[0];
   }
@@ -241,8 +242,26 @@ export class FormComponent {
     }
 
     this.service.uploadExcelFile(this.selectedFile).subscribe({
-      next: () => alert('Upload successful!'),
-      error: () => alert('Upload failed [Duplicate Data Insertion].')
+      // next: () => alert('Upload successful!'),
+      // error: () => alert('Upload failed [Duplicate Data Insertion].')
+
+       next: (response) => {
+      // Success case (HTTP 200)
+      alert(response.message || 'File uploaded successfully.');
+    },
+    error: (error) => {
+      // BadRequest (400) - Duplicate data
+      if (error.status === 400) {
+        alert(error.error?.message || 'Duplicate data. Upload failed.');
+      }
+      // Internal Server Error (500) or others
+      else if (error.status === 500) {
+        alert(error.error || 'Server error. Upload failed.');
+      }
+      else {
+        alert('Unexpected error occurred.');
+      }
+    }
     });
 
 

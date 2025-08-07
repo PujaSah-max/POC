@@ -31,7 +31,7 @@
   </div>
 
   <div class="form-group">
-    <label for="email">Email or Username</label>
+    <label for="email">Email</label>
     <input type="email" id="email" formControlName="email" placeholder="Enter Email or Username" />
   </div>
 
@@ -45,7 +45,7 @@
     </div>
   </div>
 
-  <button type="submit">{{ isLoginMode ? 'Login' : 'Signup' }}</button>
+  <button [disabled]="!authform.valid" type="submit">{{ isLoginMode ? 'Login' : 'Signup' }}</button>
 
   <p class="toggle-mode-text">
     {{ isLoginMode ? "Don't have an account?" : "Already have an account?" }}

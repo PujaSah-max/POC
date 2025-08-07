@@ -58,7 +58,7 @@ import { CommonModule, NgClass } from '@angular/common';
 @Component({
   selector: 'app-signup-page',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass,CommonModule],
+  imports: [ReactiveFormsModule, NgClass, CommonModule],
   templateUrl: './signup-page.component.html',
   styleUrl: './signup-page.component.scss'
 })
@@ -67,12 +67,12 @@ export class SignupPageComponent {
   showPassword = false;
 
   authform: FormGroup = new FormGroup({
-    userName: new FormControl('', []), // optional in login
+    userName: new FormControl('', [Validators.required]), // optional in login
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   });
 
-  constructor(private authService: AuthServiceService, private router: Router) {}
+  constructor(private authService: AuthServiceService, private router: Router) { }
 
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -95,12 +95,12 @@ export class SignupPageComponent {
 
     if (this.isLoginMode) {
       const loginData: LoginDto = {
-       userNameOrEmail: formData.email || formData.userName,
+        userNameOrEmail: formData.email || formData.userName,
         password: formData.password
       };
 
       this.authService.login(loginData).subscribe({
-        next: (response:any) => {
+        next: (response: any) => {
           console.log('Login success', response);
           localStorage.setItem('token', response.token); // optional
           this.authform.reset();
@@ -118,16 +118,34 @@ export class SignupPageComponent {
         password: formData.password,
       };
 
-      this.authService.signup(signData).subscribe({
-        next: (response) => {
-          console.log('Signup success', response);
-          this.authform.reset();
-          this.router.navigate(['/parent']);
-        },
-        error: (err) => {
-          console.error('Signup error', err);
-        }
-      });
+      // this.authService.signup(signData).subscribe({
+      //   next: (response) => {
+      //     console.log('Signup success', response);
+      //     this.authform.reset();
+      //     this.router.navigate(['/parent']);
+      //   },
+      //   error: (err) => {
+      //     console.error('Signup error', err);
+      //   }
+      // });
+    
+    
+    this.authService.signup(signData).subscribe({
+    next: (response) => {
+    console.log('Signup success', response);
+    this.authform.reset();
+    this.router.navigate(['/parent']);
+  },
+  error: (err) => {
+    console.error('Signup error', err);
+    if (err.error === 'Account already exists') {
+      alert('Account already exists');
+    } else {
+      alert('Signup failed.Account already exists.');
+    }
+  }
+});
+
     }
   }
 }
