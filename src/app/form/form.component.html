@@ -1,6 +1,6 @@
 <h1 class="form-title">User Form</h1>
-<input type="file" (change)="uploadFile($event)" accept=".xlsx, .xls" />
-<button (click)="submitFile()">Upload</button>
+<input type="file"#fileInput (change)="uploadFile($event)" accept=".xlsx, .xls" />
+<button (click)="submitFile(fileInput)">Upload</button>
 
 
 <form class="form-container" [formGroup]="myform" (ngSubmit)="Onsubmit()" id="myform">

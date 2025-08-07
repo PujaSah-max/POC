@@ -160,13 +160,13 @@ export class FormComponent {
           `EmpID: ${data.empId}\n` +
           `Name: ${data.name}\n` +
           `Designation: ${data.designation}\n` +
-          `Reporting_To: ${data.reportingTo}\n` +
-          `Billable: ${data.billableStatus}\n` +
+          `Reporting_To: ${data.reporting_To}\n` +
+          `Billable: ${data.billable}\n` +
           `Skills: ${data.skills}\n` +
-          `Project_Allocation: ${data.projectAllocation}\n` +
+          `Project_Allocation: ${data.project_Allocation}\n` +
           `Location: ${data.location}\n` +
           `Email: ${data.email}\n` +
-          `CTE_DOJ: ${data.cteDoj}\n` +
+          `CTE_DOJ: ${data.ctE_DOJ}\n` +
           `Remarks: ${data.remarks}`
         );
         this.myform.reset();
@@ -192,13 +192,13 @@ export class FormComponent {
           `EmpID: ${data.empId}\n` +
           `Name: ${data.name}\n` +
           `Designation: ${data.designation}\n` +
-          `Reporting_To: ${data.reportingTo}\n` +
-          `Billable: ${data.billableStatus}\n` +
+          `Reporting_To: ${data.reporting_To}\n` +
+          `Billable: ${data.billable}\n` +
           `Skills: ${data.skills}\n` +
-          `Project_Allocation: ${data.projectAllocation}\n` +
+          `Project_Allocation: ${data.project_Allocation}\n` +
           `Location: ${data.location}\n` +
           `Email: ${data.email}\n` +
-          `CTE_DOJ: ${data.cteDoj}\n` +
+          `CTE_DOJ: ${data.ctE_DOJ}\n` +
           `Remarks: ${data.remarks}`
         );
         this.myform.reset();
@@ -235,7 +235,7 @@ export class FormComponent {
     this.selectedFile = event.target.files[0];
   }
 
-  submitFile() {
+  submitFile(fileInput:HTMLInputElement) {
     if (!this.selectedFile) {
       alert('Please select a file.');
       return;
@@ -248,6 +248,7 @@ export class FormComponent {
        next: (response) => {
       // Success case (HTTP 200)
       alert(response.message || 'File uploaded successfully.');
+       this.resetFile(fileInput);
     },
     error: (error) => {
       // BadRequest (400) - Duplicate data
@@ -261,10 +262,15 @@ export class FormComponent {
       else {
         alert('Unexpected error occurred.');
       }
+       this.resetFile(fileInput);
     }
     });
 
-
   }
-
+  resetFile(fileInput:HTMLInputElement) {
+  this.selectedFile = null;
+  
+    fileInput.value = '';
+  }
 }
+
