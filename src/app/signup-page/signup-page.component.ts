@@ -106,9 +106,25 @@ export class SignupPageComponent {
           this.authform.reset();
           this.router.navigate(['/parent']);
         },
+        // 
         error: (err: any) => {
-          console.error('Login error', err);
-        }
+  console.log('Login error:', err);
+
+  let errorMessage = 'Unexpected error occurred.';
+
+  if (err.status === 401) {
+    errorMessage = typeof err.error === 'string'
+      ? err.error
+      : err.error?.message || 'Wrong credentials';
+  } else if (err.status === 500) {
+    errorMessage = typeof err.error === 'string'
+      ? err.error
+      : err.error?.message || 'Server error';
+  }
+
+  alert(errorMessage);
+}
+
       });
 
     } else {

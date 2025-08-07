@@ -12,6 +12,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 
 export const routes: Routes = [
     { path: "signup", component: SignupPageComponent },
+    { path: "", redirectTo: "/signup", pathMatch: 'full' },
     {
         path: '', component: MainPageComponent,
         children: [
@@ -25,6 +26,5 @@ export const routes: Routes = [
         ]
     },
 
-    { path: "", redirectTo: "/parent", pathMatch: 'full' },
-    { path: "**", redirectTo: "parent" }
+    { path: "**", redirectTo: "/signup" }
 ];
