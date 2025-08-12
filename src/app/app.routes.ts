@@ -8,6 +8,7 @@ import { KendoComponent } from './kendo/kendo.component';
 import { ParentComponent } from './parent/parent.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { authGuard } from './auth.guard';
 
 
 export const routes: Routes = [
@@ -16,13 +17,13 @@ export const routes: Routes = [
     {
         path: '', component: MainPageComponent,
         children: [
-            { path: "home", component: HomeComponent },
-            { path: "detail", component: DetailComponent },
-            { path: "form", component: FormComponent },
-            { path: "detail/:empId", component: DetailComponent },
-            { path: "form/:empId", component: FormComponent },
-            { path: "parent", component: ParentComponent },
-            { path: "grid", component: KendoComponent },
+            { path: "home", component: HomeComponent, canActivate: [authGuard], data: { roles: ['Admin', 'Manager', 'User'] } },
+            { path: "detail", component: DetailComponent, canActivate: [authGuard], data: { roles: ['Admin', 'Manager', 'User'] } },
+            { path: "form", component: FormComponent, canActivate: [authGuard], data: { roles: ['Admin', 'Manager'] } },
+            { path: "detail/:empId", component: DetailComponent, canActivate: [authGuard], data: { roles: ['Admin', 'Manager'] } },
+            { path: "form/:empId", component: FormComponent, canActivate: [authGuard], data: { roles: ['Admin', 'Manager'] } },
+            { path: "parent", component: ParentComponent, canActivate: [authGuard], data: { roles: ['Admin', 'Manager', 'User'] } },
+            { path: "grid", component: KendoComponent, canActivate: [authGuard], data: { roles: ['Admin', 'Manager', 'User'] } },
         ]
     },
 

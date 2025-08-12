@@ -54,6 +54,7 @@ import { signupDto, LoginDto } from '../Interface/Interface';
 import { AuthServiceService } from '../services/auth-service.service';
 import { Router } from '@angular/router';
 import { CommonModule, NgClass } from '@angular/common';
+import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-signup-page',
@@ -74,8 +75,21 @@ export class SignupPageComponent {
 
   constructor(private authService: AuthServiceService, private router: Router) { }
 
+  ngOnInit() {
+    if (!this.isLoginMode) {
+      this.authform.addControl('role', new FormControl<string | null>(null, [Validators.required]))
+    }
+  }
+
   toggleMode() {
     this.isLoginMode = !this.isLoginMode;
+
+    if (!this.isLoginMode) {
+      this.authform.addControl('role', new FormControl<string | null>(null, [Validators.required]))
+    } else {
+      this.authform.removeControl('role');
+      this.authform.get('email')?.removeValidators([Validators.email]);
+    }
 
     const usernameControl = this.authform.get('userName');
     if (this.isLoginMode) {
@@ -98,32 +112,33 @@ export class SignupPageComponent {
         userNameOrEmail: formData.email || formData.userName,
         password: formData.password
       };
+      console.log(loginData);
 
       this.authService.login(loginData).subscribe({
         next: (response: any) => {
           console.log('Login success', response);
-          localStorage.setItem('token', response.token); // optional
+          this.authService.saveToken(response.token);
           this.authform.reset();
           this.router.navigate(['/parent']);
         },
-        // 
+
         error: (err: any) => {
-  console.log('Login error:', err);
+          console.log('Login error:', err);
 
-  let errorMessage = 'Unexpected error occurred.';
+          let errorMessage = 'Unexpected error occurred.';
 
-  if (err.status === 401) {
-    errorMessage = typeof err.error === 'string'
-      ? err.error
-      : err.error?.message || 'Wrong credentials';
-  } else if (err.status === 500) {
-    errorMessage = typeof err.error === 'string'
-      ? err.error
-      : err.error?.message || 'Server error';
-  }
+          if (err.status === 401) {
+            errorMessage = typeof err.error === 'string'
+              ? err.error
+              : err.error?.message || 'Wrong credentials';
+          } else if (err.status === 500) {
+            errorMessage = typeof err.error === 'string'
+              ? err.error
+              : err.error?.message || 'Server error';
+          }
 
-  alert(errorMessage);
-}
+          alert(errorMessage);
+        }
 
       });
 
@@ -132,6 +147,7 @@ export class SignupPageComponent {
         userName: formData.userName,
         email: formData.email,
         password: formData.password,
+        role: formData?.role,
       };
 
       // this.authService.signup(signData).subscribe({
@@ -144,23 +160,23 @@ export class SignupPageComponent {
       //     console.error('Signup error', err);
       //   }
       // });
-    
-    
-    this.authService.signup(signData).subscribe({
-    next: (response) => {
-    console.log('Signup success', response);
-    this.authform.reset();
-    this.router.navigate(['/parent']);
-  },
-  error: (err) => {
-    console.error('Signup error', err);
-    if (err.error === 'Account already exists') {
-      alert('Account already exists');
-    } else {
-      alert('Signup failed.Account already exists.');
-    }
-  }
-});
+
+
+      this.authService.signup(signData).subscribe({
+        next: (response) => {
+          console.log('Signup success', response);
+          this.authform.reset();
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error('Signup error', err);
+          if (err.error === 'Account already exists') {
+            alert('Account already exists');
+          } else {
+            alert('Signup failed.Account already exists.');
+          }
+        }
+      });
 
     }
   }

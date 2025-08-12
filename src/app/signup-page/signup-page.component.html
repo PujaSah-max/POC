@@ -31,7 +31,7 @@
   </div>
 
   <div class="form-group">
-    <label for="email">Email</label>
+    <label for="email">{{ isLoginMode ? 'UserName Or Email' : 'Email'}}</label>
     <input type="email" id="email" formControlName="email" placeholder="Enter Email or Username" />
   </div>
 
@@ -42,6 +42,23 @@
       <span class="toggle-password" (click)="togglePasswordVisibility()">
         {{ showPassword ? '🙈' : '👁️' }}
       </span>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoginMode" class="form-group">
+    <label for="Role">Role</label>
+    <div class="password-wrapper">
+      <!-- <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password" placeholder="Enter password" /> -->
+      <!-- <span class="toggle-password" (click)="togglePasswordVisibility()">
+        {{ showPassword ? '🙈' : '👁️' }}
+      </span> -->
+      <select name="Role" id="Role" formControlName="role" [value]="null">
+        <option [value]="null" hidden selected>Select Role</option>
+        <option value="Admin">Admin</option>
+        <option value="Manager">Manager</option>
+        <option value="User">User</option>
+        
+      </select>
     </div>
   </div>
 
