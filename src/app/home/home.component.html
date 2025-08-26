@@ -90,11 +90,23 @@
 
     </div>
 
+    <!-- <input
+  type="text"
+  placeholder="Search employees..."
+  [(ngModel)]="searchTerm"
+  (input)="onSearchChange()"
+  class="form-control mb-2"
+/> -->
+
     <!-- ✅ Kendo Grid -->
     <kendo-grid 
+      [kendoGridBinding]="details"     
+      [data]="gridView"
       [kendoGridBinding]="details"
-      [pageSize]="6"
+      [pageSize]="pageSize"
+      [skip]="skip"
       [pageable]="true"
+      (pageChange)="pageChange($event)"
       [sortable]="{ mode: 'multiple' }"
       [navigable]="true"
       [style.width.%]="100"
@@ -106,6 +118,8 @@
       [(selectedKeys)]="selectedKeys"
       [kendoGridSelectBy]="'empId'"
       (excelExport)="allData()"
+      (dataStateChange)="dataStateChange($event)"
+       [filterable]="true"
     >
       <kendo-grid-checkbox-column [width]="50"[showSelectAll]="true"></kendo-grid-checkbox-column>
 

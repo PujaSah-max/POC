@@ -4,11 +4,12 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ServiceService } from '../services/resourceService';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { ExcelModule, GridModule } from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, ExcelModule, GridDataResult, GridModule } from '@progress/kendo-angular-grid';
 import { ToolBarModule } from '@progress/kendo-angular-toolbar';
 import { FormsModule } from "@angular/forms";
 import { ExcelExportData } from "@progress/kendo-angular-excel-export";
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
+
 
 import {
   KENDO_GRID,
@@ -18,6 +19,7 @@ import {
 import { KENDO_TOOLBAR } from "@progress/kendo-angular-toolbar";
 import { KENDO_LABELS } from "@progress/kendo-angular-label";
 import { KENDO_INPUTS } from "@progress/kendo-angular-inputs";
+import { PageChangeEvent } from '@progress/kendo-angular-pager';
 
 @Component({
   selector: 'app-home',
@@ -40,10 +42,11 @@ import { KENDO_INPUTS } from "@progress/kendo-angular-inputs";
     KENDO_INPUTS,
     KENDO_LABELS,
     ComboBoxModule,
+    
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  encapsulation: ViewEncapsulation.None  
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
 
@@ -56,31 +59,96 @@ export class HomeComponent implements OnInit {
   designationList: any[] = [];
   skillsList: any[] = [];
   projectList: any[] = [];
-  locationList:any[]=[];
-  
-  
+  locationList: any[] = [];
 
 
+  // public gridView!: GridDataResult;
+  public gridView: GridDataResult = { data: [], total: 0 };
+
+  public pageSize: number = 10;
+  public skip: number = 0;
+  // gridViewresult: any[] | GridDataResult | null = [];
+  public searchTerm: string = '';
+  public sort: any[] = [];
+  // filterValues: {} | undefined;
   constructor(
     private service: ServiceService,
     private route: Router,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
+  
     this.fetchEmployees();
     this.initBulkForm();
+    
   }
+  
+  
 
   fetchEmployees() {
-    this.service.GetAllEmployees().subscribe(data => {
-      this.details = data;
-      this.designationList = [...new Set(data.map((item: { designation: any; }) => item.designation))];
-      this.skillsList = [...new Set(data.map((item: { skills: any; }) => item.skills))];
-      this.projectList = [...new Set(data.map((item: { project_Allocation: any; }) => item.project_Allocation))];
-      this.locationList=[...new Set(data.map((item: {location: any; }) => item.location))]; 
-    });
+    // this.service.GetAllEmployees().subscribe(data => {
+    //   this.details = data;
+    //   this.designationList = [...new Set(data.map((item: { designation: any; }) => item.designation))];
+    //   this.skillsList = [...new Set(data.map((item: { skills: any; }) => item.skills))];
+    //   this.projectList = [...new Set(data.map((item: { project_Allocation: any; }) => item.project_Allocation))];
+    //   this.locationList = [...new Set(data.map((item: { location: any; }) => item.location))];
+    // });
+    
+    const page = this.skip / this.pageSize + 1;
+    const sortBy = this.sort.length > 0 ? this.sort[0].field : 'empId';
+    const sortOrder = this.sort.length > 0 && this.sort[0].dir === 'desc' ? 'DESC' : 'ASC';
+    this.service.GetEmployeesPaged(page, this.pageSize,this.searchTerm, sortBy, sortOrder,)
+      .subscribe((res: any) => {
+        console.log("API Response:", res);
+        this.gridView = {
+        data: res.data,          
+        total: res.totalCount    
+      };
+    this.details = res.data;
+    this.designationList = [...new Set(this.details.map((item: any) => item.designation))];
+    this.skillsList = [...new Set(this.details.map((item: any) => item.skills))];
+    this.projectList = [...new Set(this.details.map((item: any) => item.project_Allocation))];
+    this.locationList = [...new Set(this.details.map((item: any) => item.location))];
+  });
+      
+      
   }
+  filters(page: number, pageSize: number, searchTerm: string, sortBy: any, sortOrder: string, filters: any) {
+    throw new Error('Method not implemented.');
+  }
+    public pageChange(event:PageChangeEvent): void {
+    this.skip = event.skip;
+    this.pageSize = event.take;
+    this.fetchEmployees();
+  }
+  public filterValues: Record<string, any> = {};  
+   dataStateChange(state: DataStateChangeEvent): void {
+    // if (state.sort && state.sort.length > 0) {
+    //   this.sort = state.sort;
+    // }
+    this.skip = state.skip ?? 0;
+    this.pageSize = state.take ?? this.pageSize;
+    this.sort = state.sort ?? [];
+
+    // Reset filters
+    this.filterValues = {};
+
+    if (state.filter && state.filter.filters.length > 0) {
+      state.filter.filters.forEach((f: any) => {
+        this.filterValues[f.field] = f.value;
+      });
+    }
+
+    this.fetchEmployees();
+  }
+
+  onSearchChange(): void {
+    this.skip = 0; // reset to first page
+    this.fetchEmployees();
+  }
+
+
 
   Showhim(detail: any) {
     this.route.navigate([`/detail/${detail.empId}`]);
@@ -129,9 +197,9 @@ export class HomeComponent implements OnInit {
 
   initBulkForm() {
     this.editedFormGroup = this.fb.group({
-      
+
       designation: [''],
-      location:[''],
+      location: [''],
       billable: [''],
       skills: [''],
       remarks: ['']
@@ -141,11 +209,11 @@ export class HomeComponent implements OnInit {
     this.editedFormGroup.get('designation')?.setValue(value);
   }
   onSkillsChange(value: string): void {
-  this.editedFormGroup.get('skills')?.setValue(value);
-}
-onLocationChange(value: string): void {
-  this.editedFormGroup.get('location')?.setValue(value);
-}
+    this.editedFormGroup.get('skills')?.setValue(value);
+  }
+  onLocationChange(value: string): void {
+    this.editedFormGroup.get('location')?.setValue(value);
+  }
 
   toggleBulkEdit() {
     this.isBulkEditMode = !this.isBulkEditMode;
@@ -168,7 +236,7 @@ onLocationChange(value: string): void {
   // }
 
   // const updatedValues = this.editedFormGroup.value;
-  
+
   // let updateCount = 0;
 
   // this.selectedItems.forEach(item => {
@@ -197,53 +265,53 @@ onLocationChange(value: string): void {
   //     }
   //   });
   // });
-// }
+  // }
 
-applyBulkChanges() {
-  if (this.selectedItems.length === 0) {
-    alert("Please select employees to update.");
-    return;
-  }
+  applyBulkChanges() {
+    if (this.selectedItems.length === 0) {
+      alert("Please select employees to update.");
+      return;
+    }
 
-  if (this.editedFormGroup.invalid) {
-    alert("Please fill in valid data before updating.");
-    return;
-  }
+    if (this.editedFormGroup.invalid) {
+      alert("Please fill in valid data before updating.");
+      return;
+    }
 
-  const updatedValues = this.editedFormGroup.value;
+    const updatedValues = this.editedFormGroup.value;
 
-  // Filter out empty values
-  const nonEmptyUpdatedValues = Object.fromEntries(
-    Object.entries(updatedValues).filter(([_, value]) => value !== null && value !== undefined && value !== '')
-  );
+    // Filter out empty values
+    const nonEmptyUpdatedValues = Object.fromEntries(
+      Object.entries(updatedValues).filter(([_, value]) => value !== null && value !== undefined && value !== '')
+    );
 
-  let updateCount = 0;
+    let updateCount = 0;
 
-  this.selectedItems.forEach(item => {
-    const updatedEmployee = {
-      ...item,
-      ...nonEmptyUpdatedValues
-    };
+    this.selectedItems.forEach(item => {
+      const updatedEmployee = {
+        ...item,
+        ...nonEmptyUpdatedValues
+      };
 
-    this.service.updateempdetails(updatedEmployee).subscribe({
-      next: () => {
-        console.log(`Updated employee: ${updatedEmployee.empId}`);
-        updateCount++;
+      this.service.updateempdetails(updatedEmployee).subscribe({
+        next: () => {
+          console.log(`Updated employee: ${updatedEmployee.empId}`);
+          updateCount++;
 
-        if (updateCount === this.selectedItems.length) {
-          this.fetchEmployees();
-          this.selectedKeys = [];
-          this.isBulkEditMode = false;
-          this.editedFormGroup.reset();
-          alert("Selected employees updated.");
+          if (updateCount === this.selectedItems.length) {
+            this.fetchEmployees();
+            this.selectedKeys = [];
+            this.isBulkEditMode = false;
+            this.editedFormGroup.reset();
+            alert("Selected employees updated.");
+          }
+        },
+        error: (err) => {
+          console.error(`Error updating employee ${updatedEmployee.empId}:`, err);
         }
-      },
-      error: (err) => {
-        console.error(`Error updating employee ${updatedEmployee.empId}:`, err);
-      }
+      });
     });
-  });
-}
+  }
 
 
 }

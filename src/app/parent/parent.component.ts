@@ -8,6 +8,7 @@ import { ServiceService } from '../services/resourceService';
 import { FormComponent } from '../form/form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AuthServiceService,  } from '../services/auth-service.service';
 
 
 enum Comp{
@@ -38,10 +39,11 @@ interface Resource{
   standalone: true,
   imports: [ReactiveFormsModule,CommonModule, HomeComponent,DetailComponent,HttpClientModule,RouterOutlet,RouterLink,FormComponent, ],
   templateUrl: './parent.component.html',
-  styleUrl: './parent.component.scss'
+  styleUrl: './parent.component.scss',
+   
 })
 export class ParentComponent {
-constructor(private httpclient :ServiceService, private router:Router){}
+constructor(private httpclient :ServiceService, private router:Router, private authService: AuthServiceService){}
 
   dashboardCards = [
     { title: 'Total Employees', value: 0, icon: 'fas fa-users' },
@@ -50,9 +52,10 @@ constructor(private httpclient :ServiceService, private router:Router){}
     { title: 'Billable / Non-billable', value: '', icon: 'fas fa-briefcase' }
   ];
 
-  ngOnInit(): void {
-    
+  ngOnInit() {
+  
   }
+  
 
   
 }

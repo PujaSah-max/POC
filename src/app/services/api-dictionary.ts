@@ -22,5 +22,7 @@ export const ApiDictionary = {
   },
  Login:{
   url:'login'
- }
+ },
+GetEmployeesPaged: { url: 'paged' }
 };
+
